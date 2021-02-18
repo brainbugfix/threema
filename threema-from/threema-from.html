@@ -1,0 +1,112 @@
+<script type="text/javascript">
+    RED.nodes.registerType('threema-from',{
+        category: 'config',
+        defaults: {
+            threema_id: {value: "", required:true, validate:RED.validators.regex(/\\*[A-Z0-9]{7}/)},
+            name: {value: "" },
+            secret: { value: "", required: true },
+			private_key: { value: "", required: true },
+            executable: { value: "", required: true },
+            persistentKeyStore: {value: false},
+            keyStoreName: {value: "", required: false, validate: function(v) { 
+                if ($("#node-config-input-persistentKeyStore").is(':checked') === true)
+                {
+                    return RED.settings.context.stores.includes($("#node-config-input-keyStoreName").val());
+                }
+                return true;
+            }}
+        },
+        label: function() {
+            return this.name + " (" + this.threema_id + ")";
+        },
+        oneditprepare: function() {
+            $("#node-config-input-persistentKeyStore").change(function() {
+                if ($("#node-config-input-persistentKeyStore").is(':checked') === false)
+                {
+                    $("#node-row-storename").hide();
+                    $("#node-row-storename-tip").hide();
+                }
+                else
+                {
+                    $("#node-row-storename").show();
+                    $("#node-row-storename-tip").show();
+                }
+            });
+            for (entry of RED.settings.context.stores)
+            {
+                $("#node-config-input-keyStoreName").append(new Option(entry, entry, false, entry === this.keyStoreName));
+            };
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="threema-from">
+	<div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-user"></i> Name</label>
+        <input type="text" id="node-config-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-threema_id"><i class="fa fa-id-card"></i> Threema ID</label>
+        <input type="text" id="node-config-input-threema_id">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-secret"><i class="fa fa-user-secret"></i> Secret</label>
+        <input type="text" id="node-config-input-secret" placeholder="Secret">
+    </div>
+    <div class="form-row">
+		<label for="node-config-input-private_key"><i class="fa fa-key"></i> Private key file</label>
+        <input type="text" id="node-config-input-private_key" placeholder="Private key file">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-executable"><i class="fa fa-rocket"></i> SDK exec</label>
+        <input type="text" id="node-config-input-executable" placeholder="SDK executable">
+    </div>
+    <!---->
+    <div class="form-row">
+        <label for="node-config-input-persistentKeyStore"><i class="fa fa-database"></i> Enable persistent key store</label>
+        <input type="checkbox" id="node-config-input-persistentKeyStore" placeholder="" style="outline:none;width:auto;">
+    </div>
+    <div class="form-row" id="node-row-storename">
+        <label for="node-config-input-keyStoreName"><i class="fa fa-database"></i> Key store name</label>
+        <select id="node-config-input-keyStoreName">
+    </div>
+    <div class="form-tips" id="node-row-storename-tip">
+        <span>The name given as the store name shall be configured in settings.js.</span>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="threema-from">
+  <p>A configuration node for the Threema nodes.</p>
+
+  <h3>Settings</h3>
+  <dl class="message-properties">
+    <dt>Name
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The name of the configuration entry. This is also the display name to be selected. </dd>
+    <dt>Threema ID
+        <span class="property-type">string</span>
+    </dt>
+    <dd> The Threema ID of the sender, respectively the ID of the gateway account. </dd>
+    <dt>Secret
+        <span class="property-type">string</span>
+    </dt>
+    <dd> The secret of the Threema gateway account. </dd>
+    <dt>Private key file
+        <span class="property-type">string</span>
+    </dt>
+    <dd> The path to the private key file. </dd>
+    <dt>SDK exec
+        <span class="property-type">string</span>
+    </dt>
+    <dd> The path to the SDK executable. </dd>
+    <dt>Store public key persistently 
+        <span class="property-type">bool</span>
+    </dt>
+    <dd> Decide whether to store the public key persistently to keep it over restarts of Node RED. </dd>
+    <dt>Store name 
+        <span class="property-type">string</span>
+    </dt>
+    <dd> The name of the persistent store. This name shall match with the name used in the settings.js file. For further information about persistent stores see <a href="https://discourse.nodered.org/t/a-guide-to-understanding-persistent-context/4115">Persistent store guide</a>. </dd>
+  </dl>
+</script>

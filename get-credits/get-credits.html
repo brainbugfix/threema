@@ -1,0 +1,69 @@
+<script type="text/javascript">
+    RED.nodes.registerType('get-credits',
+    {
+        category: 'Threema',
+        color: '#21a650',
+        defaults: {
+            senderId	: { value : "", type : "threema-from" }
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-money",
+        label: function() {
+            return this.name || "get-credits";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="get-credits">
+  <div class="form-row">
+    <label for="node-input-senderId"><i class="fa fa-id-card"></i> Sender ID</label>
+    <input type="text" id="node-input-senderId" placeholder="Sender ID">
+</div>
+</script>
+
+<script type="text/html" data-help-name="get-credits">
+  <p>A node to get the current amount of credits for a Threema gateway account.</p>
+
+  <h3>Settings</h3>
+  <dl class="message-properties">
+    <dt>Sender ID
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The sender ID to be selected. See config node for more information. </dd>
+  </dl>
+
+  <h3>Inputs</h3>
+  <dl class="message-properties">
+    <dt>msg
+      <span class="property-type">string | buffer</span>
+    </dt>
+    <dd> The <code>msg</code> is not evaluated and is just used for triggering the execution of the node. However, it is copied to the output. </dd>
+  </dl>
+
+  <h3>Outputs</h3>
+  <dl class="message-properties">
+    <dt class="optional">credits
+      <span class="property-type">string</span>
+    </dt>
+    <dd> In case the request was successful, <code>msg.credits</code> contains the number of available credits for the selected ID. </dd>
+    <dt class="optional">error
+      <span class="property-type">string</span>
+    </dt>
+    <dd> In case of an error, <code>msg.error</code> contains the error which was detected. </dd>
+    <dt class="optional">status
+      <span class="property-type">string</span>
+    </dt>
+    <dd> After the request has finished, <code>msg.status</code> contains the status code of the executable spawning. </dd>
+  </dl>
+
+  <h3>Details</h3>
+  <p>This node requests the currently available credits for a given Threema ID. In case all parameters are correct, the <code>msg.credits</code> contains the number of available credits. <code>msg.status</code> contains the status code after ending the spawning of the executable. If an error occurs, <code>msg.credits</code> is not set but instead <code>msg.error</code> contains the description of the error.<br/>The message is not evaluated and only used to trigger the node. Therefore, it is not relevant what the message contains and it will simply be copied to the output, unless it contains any of the above mentioned output parameters.</p>
+
+  <h3>References</h3>
+  <ul>
+      <li><a href="https://gateway.threema.ch">Threema Gateway</a> - full description of the gateway and how to install it on your system.</li>
+      <li><a>GitHub</a> - the nodes github repository.</li>
+  </ul>
+</script>
+

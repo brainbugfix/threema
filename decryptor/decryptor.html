@@ -1,0 +1,100 @@
+<script type="text/javascript">
+  RED.nodes.registerType('decryptor',
+  {
+      category: 'Threema',
+      color: '#21a650',
+      defaults: {
+          senderId	: { value : "", type : "threema-from" }
+      },
+      inputs:1,
+      outputs:1,
+      icon: "font-awesome/fa-envelope-open",
+      label: function() {
+          return this.name || "decryptor";
+      },
+      inputLabels: "The input payload from a https request from the Threema gateway.",
+      outputLabels: "A message containing the decrypted message."
+  });
+</script>
+
+<script type="text/html" data-template-name="decryptor">
+	<div class="form-row">
+    <label for="node-input-senderId"><i class="fa fa-id-card"></i> Sender ID</label>
+    <input type="text" id="node-input-senderId" placeholder="Sender ID">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="decryptor">
+    <p>A node to decrypt a message from a https request from the Threema gateway.</p>
+
+  <h3>Settings</h3>
+    <dl class="message-properties">
+      <dt>Sender ID
+        <span class="property-type">string</span>
+      </dt>
+      <dd> The sender ID to be selected. See config node for more information. </dd>
+  </dl>
+
+  <h3>Inputs</h3>
+  <dl class="message-properties">
+    <dt>msg
+      <span class="property-type">object</span>
+    </dt>
+    <dd> this node is designed to directly take the input from a http POST request from the Threema gateway. Therefore, if it is necessary to use other input, the structur of <code>msg.payload</code> has to look like this:<br>
+      <code>
+        {<br/>
+          "from": "&lt;ID&gt;",<br/>
+          "to": "&lt;ID&gt;",<br/>
+          "date": "&lt;date&gt;",<br/>
+          "nonce": "&lt;nonce&gt;",<br/>
+          "box": "&lt;message&gt;",<br/>
+          "nickname": "&lt;nick&gt;"<br/>
+        }
+      </code>.  </dd>
+  </dl>
+
+  <h3>Outputs</h3>
+  The message object contains the following values:
+  <dl class="message-properties">
+    <dt>message
+      <span class="property-type">string | buffer</span>
+    </dt>
+    <dd> The decrypted message. </dd>
+    <dt>from
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The ID of the sender of the message. </dd>
+    <dt>to
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The ID of the gateway account the message was sent to. In case one has more than one account, with this property it is possible to decide to which account the  message was sent to. </dd>
+    <dt>nick
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The nickname of the sender which was set for the sender account. </dd>
+    <dt>date
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The Unix timestamp when the message was sent from the gateway. If this timestamp should be used for the JavaScript <code>Date</code> object, it needs to be multiplied by 1000. </dd>
+    <dt>status
+      <span class="property-type">string</span>
+    </dt>
+    <dd> After the request has finished, the property <code>status</code> contains the status code of the executable spawning. </dd>
+    <dt class="optional">error
+      <span class="property-type">string</span>
+    </dt>
+    <dd> In case of an error, <code>msg.error</code> contains the error which was detected. </dd>
+  </dl>
+
+  <h3>Details</h3>
+  <p>In case the message could not be decrypted for any reason the actual message and additional properties will not be set. Instead an <code>error</code> property will contain the error which occurred.</p>
+  <p>The node needs to have the Python SDK installed as this is only possible with e2e encryption. See the Threema Gateway documentation on how to install it. The executable is configured in the threema-from configuration node which is mandatory for this node.</p>
+  <p>As a public key for a sender does not change over time, it is highly recommended to store them instead of querying the server for the public key every time a message needs to be decrypted. By default this node keeps the public keys in memory as long as Node RED is not restarted. However, to allow persistent storage of public keys over Node RED restarts, this option can be activated in the threema-from configuration node.</p>
+
+  <h3>References</h3>
+  <ul>
+      <li><a href="https://gateway.threema.ch">Threema Gateway</a> - full description of the gateway and how to install it on your system.</li>
+      <li><a href="https://discourse.nodered.org/t/a-guide-to-understanding-persistent-context/4115">Persistent store guide</a> - guide on how to use persistent context in Node RED.</li>
+      <li><a href="https://www.python.org/">Python</a> - needs to be installed when using Threema's Python SDK.</li>
+  </ul>
+</script>
