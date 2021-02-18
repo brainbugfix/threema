@@ -1,0 +1,96 @@
+<script type="text/javascript">
+    RED.nodes.registerType('send-message',
+    {
+        category: 'Threema',
+        color: '#21a650',
+        defaults: {
+			senderId	: { value: "", type:"threema-from" },
+			recipientId	: { value: "", type:"threema-to" },
+			message		: { value: "" }
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-send",
+        label: function() {
+            return this.name || "send-message";
+        },
+        inputLabels: "Sending the message with any input. Use item for mustache replacement in message.",
+		outputLabels: "On success the message ID is msg.msgid."
+    });
+</script>
+
+<script type="text/html" data-template-name="send-message">
+	<div class="form-row">
+        <label for="node-input-senderId"><i class="fa fa-id-card"></i> Sender ID</label>
+        <input type="text" id="node-input-senderId" placeholder="Sender ID">
+    </div>
+    <div class="form-row">
+		<label for="node-input-recipientId"><i class="fa fa-address-book"></i> Recipient</label>
+        <input type="text" id="node-input-recipientId" placeholder="Recipient">
+    </div>
+    <div class="form-row">
+		<label for="node-input-message"><i class="fa fa-file-text"></i> Message</label>
+        <input type="text" id="node-input-message" placeholder="Message">
+    </div>
+    
+</script>
+
+<script type="text/html" data-help-name="send-message">
+    <p>A node to send messages via Threema gateway. It is required to have the SDK installed.</p>
+
+  <h3>Settings</h3>
+  <dl class="message-properties">
+    <dt>Sender ID
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The sender ID to be selected. See config node for more information. </dd>
+    <dt>Recipient 
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The recipient to be selected. See config notde for more information. </dd>
+    <dt>Message 
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The message which is to be sent. If mustache tags are used and set within the <code>msg</code>, they will be replaced. </dd>
+  </dl>
+
+  <h3>Inputs</h3>
+  <dl class="message-properties">
+    <dt>msg
+      <span class="property-type">string | buffer</span>
+    </dt>
+    <dd> unless used for Mustache, the <code>msg</code> is not evaluated. However, it is copied as is to the output. </dd>
+    <dt class="optional">&lt;item&gt; <span class="property-type">string</span></dt>
+    <dd> the item is used to be replaced in the message if a template is used.</dd>
+  </dl>
+
+  <h3>Outputs</h3>
+  <dl class="message-properties">
+    <dt>msg
+      <span class="property-type">string | buffer</span>
+    </dt>
+    <dd> The msg is a copy of the input. If mustache tags are used, they are replaced. </dd>
+    <dt class="optional">msgid
+      <span class="property-type">string</span>
+    </dt>
+    <dd> In case the request was successful, <code>msg.msgid</code> contains the ID of the request. </dd>
+    <dt class="optional">error
+      <span class="property-type">string</span>
+    </dt>
+    <dd> In case of an error, <code>msg.error</code> contains the error which was detected. </dd>
+    <dt class="optional">status
+      <span class="property-type">string</span>
+    </dt>
+    <dd> After the request has finished, <code>msg.status</code> contains the status code of the executable spawning. </dd>
+  </dl>
+
+  <h3>Details</h3>
+  <p>This node sends a Threema message to a given recipient from a given sender. In case all parameters are correct, the <code>msg.msgid</code> contains the message ID from the SDK. <code>msg.status</code> contains the status code after ending the spawning of the executable. If an error occurs, <code>msg.msgid</code> is not set but instead <code>msg.error</code> contains the description of the error.<br/>The message is not evaluated, except for mustache inputs, and only used to trigger the node. Therefore, it is not relevant what the message contains and it will simply be copied to the output, unless it contains any of the above mentioned output parameters.</p>
+
+  <h3>References</h3>
+  <ul>
+      <li><a href="https://gateway.threema.ch">Threema Gateway</a> - full description of the gateway and how to install it on your system.</li>
+      <li><a>GitHub</a> - the nodes github repository.</li>
+  </ul>
+</script>
+

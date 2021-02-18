@@ -1,0 +1,39 @@
+<script type="text/javascript">
+    RED.nodes.registerType('threema-to',{
+        category: 'config',
+        defaults: {
+            threema_id	: {value:"", required:true, validate:RED.validators.regex(/[A-Z0-9]{8}/)},
+            name		: {value:""}
+        },
+        label: function() {
+            return this.name + " (" + this.threema_id + ")";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="threema-to">
+	<div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-user"></i> Name</label>
+        <input type="text" id="node-config-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-threema_id"><i class="fa fa-id-card"></i> Threema ID</label>
+        <input type="text" id="node-config-input-threema_id">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="threema-to">
+  <p>A configuration node for the Threema nodes.</p>
+
+  <h3>Settings</h3>
+  <dl class="message-properties">
+    <dt>Name
+      <span class="property-type">string</span>
+    </dt>
+    <dd> The name of the configuration entry. This is also the display name to be selected. </dd>
+    <dt>Threema ID
+        <span class="property-type">string</span>
+    </dt>
+    <dd> The Threema ID of the recipient. </dd>
+  </dl>
+</script>
