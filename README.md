@@ -7,7 +7,7 @@ Nodes to use Threema from Node-Red. The following features are currently availab
  
 The node requires the Threema SDK (https://gateway.threema.ch/en/developer/sdk-python) to be installed as well as a gateway account (https://gateway.threema.ch/en). 
 
-Only e2e encryption/decryption is supported! The nodes is tested with the Python SDK but it should also work with the other SDK's as long as they have the same input parameters in the same order.
+Only e2e encryption/decryption is supported! It is required to use the Python SDK.
 
 For detaild description, see the documentation of the individual nodes and the provided examples. 
 
