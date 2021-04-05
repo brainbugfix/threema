@@ -5,6 +5,11 @@ module.exports = function(RED)
 {			
   function ThreemaSendMessageNode(config) 
   {
+		RED.nodes.createNode(this, config);
+
+		// keep the node global to use within the callback
+    var node = this;
+		node.status({fill:"yellow",shape:"dot",text:"send-message.status.init"});
 		// Retrieve the config node
 		this.from = RED.nodes.getNode(config.senderId);
 		if (this.from) 
@@ -37,16 +42,17 @@ module.exports = function(RED)
 		var myMsg;
 		var node;
 		
-		RED.nodes.createNode(this, config);
-		// keep the node global to use within the callback
-    node = this;
+		node.status({fill:"green",shape:"dot",text:"send-message.status.ready"});
+
     node.on('input', function(msg, send, done) 
     {
+			this.status({fill:"blue",shape:"dot",text:"send-message.status.encrypting"});
 			// keep the message to use in callback
 			myMsg = msg;
 			
-			// threema-gateway send_e2e <to> <from> <secret> <privateKey>
+			// Python: threema-gateway send_e2e <to> <from> <secret> <privateKey>
 			// '/home/pi/venv/bin/threema-gateway'
+			// PHP: threema-msgapi-tool.php -S <threemaId> <from> <secret> <privateKey>
 			var threema = spawn(node.executable, 
 				['send_e2e', node.recipientId, node.senderId, node.secret, node.private_key]);
 				
@@ -66,12 +72,14 @@ module.exports = function(RED)
 			threema.on('close', (code) =>
 			{
 				myMsg.status = code;
+				node.status({fill:"green",shape:"dot",text:"send-message.status.ready"});
 				node.send(myMsg);
 			});
 
 			threema.on('error', (err) =>
 			{
 				myMsg.error = err.toString();
+				node.status({fill:"red",shape:"dot",text:"send-message.status.error"});
 				node.error(myMsg.error);
 			});
 			

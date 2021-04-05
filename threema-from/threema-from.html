@@ -2,7 +2,7 @@
     RED.nodes.registerType('threema-from',{
         category: 'config',
         defaults: {
-            threema_id: {value: "", required:true, validate:RED.validators.regex(/\\*[A-Z0-9]{7}/)},
+            threema_id: {value: "", required: true, validate:RED.validators.regex(/\\*[A-Z0-9]{7}/)},
             name: {value: "" },
             secret: { value: "", required: true },
 			private_key: { value: "", required: true },
@@ -42,36 +42,36 @@
 
 <script type="text/html" data-template-name="threema-from">
 	<div class="form-row">
-        <label for="node-config-input-name"><i class="fa fa-user"></i> Name</label>
-        <input type="text" id="node-config-input-name">
-    </div>
+        <label for="node-config-input-name"><i class="fa fa-user"></i> <span data-i18n="node-red:common.label.name"></label>
+        <input type="text" id="node-config-input-name" data-i18n="[placeholder]node-red:common.label.name">
+     </div>
     <div class="form-row">
-        <label for="node-config-input-threema_id"><i class="fa fa-id-card"></i> Threema ID</label>
+        <label for="node-config-input-threema_id"><i class="fa fa-id-card"></i> <span data-i18n="threema-from.label.threemaId"></label>
         <input type="text" id="node-config-input-threema_id">
     </div>
     <div class="form-row">
-        <label for="node-config-input-secret"><i class="fa fa-user-secret"></i> Secret</label>
-        <input type="text" id="node-config-input-secret" placeholder="Secret">
+        <label for="node-config-input-secret"><i class="fa fa-user-secret"></i> <span data-i18n="threema-from.label.secret"></label>
+        <input type="text" id="node-config-input-secret" data-i18n="[placeholder]threema-from.label.secret">
     </div>
     <div class="form-row">
-		<label for="node-config-input-private_key"><i class="fa fa-key"></i> Private key file</label>
-        <input type="text" id="node-config-input-private_key" placeholder="Private key file">
+		<label for="node-config-input-private_key"><i class="fa fa-key"></i> <span data-i18n="threema-from.label.privFile"></label>
+        <input type="text" id="node-config-input-private_key" data-i18n="[placeholder]threema-from.label.privFile">
     </div>
     <div class="form-row">
-        <label for="node-config-input-executable"><i class="fa fa-rocket"></i> SDK exec</label>
-        <input type="text" id="node-config-input-executable" placeholder="SDK executable">
+        <label for="node-config-input-executable"><i class="fa fa-rocket"></i> <span data-i18n="threema-from.label.sdk"></label>
+        <input type="text" id="node-config-input-executable" data-i18n="[placeholder]threema-from.label.sdk">
     </div>
     <!---->
     <div class="form-row">
-        <label for="node-config-input-persistentKeyStore"><i class="fa fa-database"></i> Enable persistent key store</label>
+        <label for="node-config-input-persistentKeyStore"><i class="fa fa-database"></i> <span data-i18n="threema-from.label.enablePersist"></label>
         <input type="checkbox" id="node-config-input-persistentKeyStore" placeholder="" style="outline:none;width:auto;">
     </div>
     <div class="form-row" id="node-row-storename">
-        <label for="node-config-input-keyStoreName"><i class="fa fa-database"></i> Key store name</label>
-        <select id="node-config-input-keyStoreName">
+        <label for="node-config-input-keyStoreName"><i class="fa fa-database"></i> <span data-i18n="threema-from.label.keyStore"></label>
+        <select id="node-config-input-keyStoreName"></select>
     </div>
     <div class="form-tips" id="node-row-storename-tip">
-        <span>The name given as the store name shall be configured in settings.js.</span>
+        <span data-i18n="threema-from.tip.tip">
     </div>
 </script>
 

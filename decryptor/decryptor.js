@@ -4,6 +4,11 @@ module.exports = function(RED)
 {			
   function ThreemaDecryptorNode(config) 
   {
+    RED.nodes.createNode(this, config);
+
+    // keep the node global to use within the callback
+    var node = this;
+		node.status({fill:"yellow",shape:"dot",text:"decryptor.status.init"});
     // Retrieve the config node
 		this.from = RED.nodes.getNode(config.senderId);
 		if (this.from) 
@@ -25,14 +30,14 @@ module.exports = function(RED)
       this.keyStoreName = null;
     }
     
-		var myMsg = {};
-    var node;
+    var myMsg = {};
     
-    RED.nodes.createNode(this, config);
-		// keep the node global to use within the callback
-    node = this;
+    node.status({fill:"green",shape:"dot",text:"decryptor.status.ready"});
+
     node.on('input', function(msg, send, done) 
     {
+      this.status({fill:"blue",shape:"dot",text:"decryptor.status.decrypting"});
+
       myMsg.from = msg.payload.from;
       myMsg.to = msg.payload.to;
       myMsg.nickname = msg.payload.nickname;
@@ -57,6 +62,8 @@ module.exports = function(RED)
       }
       else
       {
+        // Python: threema-gateway lookup <from> <secret> -i <id>
+        // PHP: threema-msgapi-tool.php -l -k <threemaId> <from> <secret>
         var pubKeyOut = spawnSync(node.executable,
           ['lookup', node.senderId, node.secret, '-i', msg.payload.from]);
         publicKey = String(pubKeyOut.stdout).trim();
@@ -69,7 +76,10 @@ module.exports = function(RED)
 
       var box = msg.payload.box.trim(); // for some reasons this cannot used directly as parameter
 
-      // threema-gateway decrypt <privateKey> <publicKey> <nonce>
+      // Python: threema-gateway decrypt <privateKey> <publicKey> <nonce>
+      // 
+      // PHP: threema-msgapi-tool.php -D <privateKey> <publicKey> <nonce>
+      // Decrypt a box (must be provided on stdin) message and download (if the message is an image or file message) the file(s) to the given <outputFolder> folder
       var threemaMsg = spawn(node.executable, 
 				['decrypt', node.private_key, publicKey, msg.payload.nonce]);
       
@@ -89,12 +99,14 @@ module.exports = function(RED)
 			threemaMsg.on('close', (code) =>
       {
         myMsg.status = code;
+        node.status({fill:"green",shape:"dot",text:"decryptor.status.ready"});
         node.send(myMsg);
       });
 
 			threemaMsg.on('error', (err) =>
       {
         myMsg.error = err.toString();
+        node.status({fill:"red",shape:"dot",text:"decryptor.status.error"});
 				node.error(myMsg.error);
       });
 

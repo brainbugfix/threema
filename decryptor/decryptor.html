@@ -4,7 +4,8 @@
       category: 'Threema',
       color: '#21a650',
       defaults: {
-          senderId	: { value : "", type : "threema-from" }
+        name : { value : "" },
+        senderId	: { value : "", type : "threema-from" }
       },
       inputs:1,
       outputs:1,
@@ -18,9 +19,13 @@
 </script>
 
 <script type="text/html" data-template-name="decryptor">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></label>
+    <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+  </div>
 	<div class="form-row">
-    <label for="node-input-senderId"><i class="fa fa-id-card"></i> Sender ID</label>
-    <input type="text" id="node-input-senderId" placeholder="Sender ID">
+    <label for="node-input-senderId"><i class="fa fa-id-card"></i> <span data-i18n="decryptor.label.senderId"></label>
+    <input type="text" id="node-input-senderId" data-i18n="[placeholder]decryptor.label.name">
   </div>
 </script>
 
