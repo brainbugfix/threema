@@ -1,9 +1,11 @@
 {
   "name": "node-red-contrib-threema",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Nodes to use the Threema gateway from Node-Red.",
   "dependencies": {
-    "mustache": ">=3"
+    "mustache": ">=3",
+    "png-itxt": "^2.0.0",
+    "uuid": "^8.3.2"
   },
   "keywords": [
     "node-red",
@@ -11,15 +13,18 @@
     "Threema Gateway",
     "message",
     "encrypt",
-    "decrypt"
+    "decrypt",
+    "file",
+    "image"
   ],
   "node-red": {
     "nodes": {
       "send-message": "send-message/send-message.js",
+      "send-file": "send-file/send-file.js",
+      "decryptor": "decryptor/decryptor.js",
       "get-credits": "get-credits/get-credits.js",
       "threema-from": "threema-from/threema-from.js",
-      "threema-to": "threema-to/threema-to.js",
-      "decryptor": "decryptor/decryptor.js"
+      "threema-to": "threema-to/threema-to.js"
     }
   },
   "main": "send-message/send_message.js",
@@ -29,7 +34,7 @@
   "author": "Markus Mehrwald (brainbugfix)",
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/brainbugfix/threema.git"
+    "type": "git",
+    "url": "https://github.com/brainbugfix/threema.git"
   }
 }

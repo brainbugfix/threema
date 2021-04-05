@@ -4,6 +4,9 @@ module.exports = function(RED)
 {			
   function ThreemaGetCreditsNode(config) 
   {
+		RED.nodes.createNode(this, config);
+		
+		var node = this;
 		// Retrieve the config node
 		this.from = RED.nodes.getNode(config.senderId);
 		if (this.from) 
@@ -20,7 +23,6 @@ module.exports = function(RED)
 		}
 
 		var myMsg;
-		var node;
 		
 		function cb_stdout(data)
 		{
@@ -43,12 +45,12 @@ module.exports = function(RED)
 			myMsg['error'] = err.toString();
 		}
 		
-		RED.nodes.createNode(this, config);
-    node = this;
     node.on('input', function(msg, send, done) 
     {
 			myMsg = msg;
 
+			// Python: threema-gateway credits <from> <secret>
+			// PHP: threema-msgapi-tool.php -C <from> <secret>
 			var threema = spawn(node.executable, ['credits', node.senderId, node.secret]);
 				
 			threema.stdout.on('data', cb_stdout);

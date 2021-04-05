@@ -1,0 +1,18 @@
+{
+  "send-message" :
+  {
+    "label" :
+    {
+      "sender" : "Absender ID",
+      "recipient" : "Empfänger",
+      "message" : "Nachricht"
+    },
+    "status" :
+    {
+      "init" : "init",
+      "ready" : "bereit",
+      "encrypting" : "verschlüsseln",
+      "error" : "Fehler"
+    }
+  }
+}

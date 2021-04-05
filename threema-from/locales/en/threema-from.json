@@ -1,0 +1,18 @@
+{
+  "threema-from" :
+  {
+    "label" :
+    {
+      "threemaId" : "Threema ID",
+      "secret" : "Secret",
+      "privFile" : "Private key file",
+      "sdk" : "SDK exec",
+      "enablePersist" : "Enable persistent key store",
+      "keyStore" : "Key store name"
+    },
+    "tip" :
+    {
+      "tip" : "The name given as the store name shall be configured in settings.js."
+    }
+  }
+}

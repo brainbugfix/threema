@@ -1,38 +1,42 @@
 <script type="text/javascript">
-    RED.nodes.registerType('send-message',
-    {
-        category: 'Threema',
-        color: '#21a650',
-        defaults: {
-			senderId	: { value: "", type:"threema-from" },
-			recipientId	: { value: "", type:"threema-to" },
-			message		: { value: "" }
-        },
-        inputs:1,
-        outputs:1,
-        icon: "font-awesome/fa-send",
-        label: function() {
-            return this.name || "send-message";
-        },
-        inputLabels: "Sending the message with any input. Use item for mustache replacement in message.",
-		outputLabels: "On success the message ID is msg.msgid."
-    });
+  RED.nodes.registerType('send-message',
+  {
+    category: 'Threema',
+    color: '#21a650',
+    defaults: {
+      name : { value : "" },
+      senderId	: { value: "", type:"threema-from" },
+      recipientId	: { value: "", type:"threema-to" },
+      message		: { value: "" }
+    },
+    inputs:1,
+    outputs:1,
+    icon: "font-awesome/fa-send",
+    label: function() {
+        return this.name || "send-message";
+    },
+    inputLabels: "Sending the message with any input. Use item for mustache replacement in message.",
+    outputLabels: "On success the message ID is msg.msgid."
+  });
 </script>
 
 <script type="text/html" data-template-name="send-message">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></label>
+    <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+  </div>
 	<div class="form-row">
-        <label for="node-input-senderId"><i class="fa fa-id-card"></i> Sender ID</label>
-        <input type="text" id="node-input-senderId" placeholder="Sender ID">
-    </div>
-    <div class="form-row">
-		<label for="node-input-recipientId"><i class="fa fa-address-book"></i> Recipient</label>
-        <input type="text" id="node-input-recipientId" placeholder="Recipient">
-    </div>
-    <div class="form-row">
-		<label for="node-input-message"><i class="fa fa-file-text"></i> Message</label>
-        <input type="text" id="node-input-message" placeholder="Message">
-    </div>
-    
+    <label for="node-input-senderId"><i class="fa fa-id-card"></i> <span data-i18n="send-message.label.sender"></label>
+    <input type="text" id="node-input-senderId" data-i18n="[placeholder]send-message.label.sender">
+  </div>
+  <div class="form-row">
+    <label for="node-input-recipientId"><i class="fa fa-address-book"></i> <span data-i18n="send-message.label.recipient"></label>
+    <input type="text" id="node-input-recipientId" data-i18n="[placeholder]send-message.label.recipient">
+  </div>
+  <div class="form-row">
+    <label for="node-input-message"><i class="fa fa-file-text"></i> <span data-i18n="send-message.label.message"></label>
+    <input type="text" id="node-input-message" data-i18n="[placeholder]send-message.label.message">
+  </div>
 </script>
 
 <script type="text/html" data-help-name="send-message">
@@ -47,7 +51,7 @@
     <dt>Recipient 
       <span class="property-type">string</span>
     </dt>
-    <dd> The recipient to be selected. See config notde for more information. </dd>
+    <dd> The recipient to be selected. See config node for more information. </dd>
     <dt>Message 
       <span class="property-type">string</span>
     </dt>

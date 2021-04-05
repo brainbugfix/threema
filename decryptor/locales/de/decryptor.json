@@ -1,0 +1,16 @@
+{
+  "decryptor" : 
+  {
+    "label" : 
+    {
+      "senderId" : "Absender ID"
+    },
+    "status" :
+    {
+      "init" : "init",
+      "ready" : "bereit",
+      "decrypting" : "entschlüsseln",
+      "error" : "Fehler"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "send-file" :
+  {
+    "label" :
+    {
+      "sender" : "Sender ID",
+      "recipient" : "Empfänger",
+      "sendOption" : "Sendeoption",
+      "comment" : "Kommentar",
+      "thumb" : "Miniaturbild",
+      "file" : "Datei zum Verschicken"
+    },
+    "status" :
+    {
+      "init" : "init",
+      "ready" : "bereit",
+      "encrypting" : "verschlüsseln",
+      "error" : "Fehler"
+    },
+    "sendOption" :
+    {
+      "alwaysFile" : "Immer als Datei verschicken",
+      "asImage" : "Bilder als Bild verschicken"
+    },
+    "tip" :
+    {
+      "comment" : "Kommentare werden nur in der Nachricht angezeigt, wenn es sich um ein Bild vom Typ jpeg handelt. Bei png-Bildern wird der Kommentar dem Bild angefügt.",
+      "thumb" : "Miniaturbilder müssen mit absolutem Pfad angegeben werden. Miniaturbilder funktionieren nur mit Dateien, die nicht als Bild verschickt werden."
+    }
+  }
+}

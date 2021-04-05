@@ -1,0 +1,143 @@
+<script type="text/javascript">
+  RED.nodes.registerType('send-file',
+  {
+    category: 'Threema',
+    color: '#21a650',
+    defaults: {
+      name : { value : "" },
+      senderId	: { value: "", type: "threema-from" },
+      recipientId	: { value: "", type: "threema-to" },
+      file : { value: "" },
+      sendOption : { value: "image", required: true },
+      comment : { value: "" },
+      thumb : { value: "" }
+    },
+    inputs:1,
+    outputs:1,
+    icon: "font-awesome/fa-file",
+    label: function() {
+        return this.name || "send-file";
+    },
+  });
+</script>
+
+<script type="text/html" data-template-name="send-file">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></label>
+    <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+  </div>
+	<div class="form-row">
+    <label for="node-input-senderId"><i class="fa fa-id-card"></i> <span data-i18n="send-file.label.sender"></label>
+    <input type="text" id="node-input-senderId" data-i18n="[placeholder]send-file.label.sender">
+  </div>
+  <div class="form-row">
+    <label for="node-input-recipientId"><i class="fa fa-address-book"></i> <span data-i18n="send-file.label.recipient"></label>
+    <input type="text" id="node-input-recipientId" data-i18n="[placeholder]send-file.label.recipient">
+  </div>
+  <div class="form-row">
+    <label for="node-input-file"><i class="fa fa-file"></i> <span data-i18n="send-file.label.file"></label>
+    <input type="text" id="node-input-file" data-i18n="[placeholder]send-file.label.file">
+  </div>
+  <div class="form-row">
+    <label for="node-input-sendOption"><i class="fa fa-reorder"></i> <span data-i18n="send-file.label.sendOption"></label>
+    <select type="text" id="node-input-sendOption">
+      <option value="always" data-i18n="send-file.sendOption.alwaysFile"></option>
+      <option value="image" data-i18n="send-file.sendOption.asImage"></option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-comment"><i class="fa fa-comment"></i> <span data-i18n="send-file.label.comment"></label>
+    <input type="text" id="node-input-comment" data-i18n="[placeholder]send-file.label.comment">
+  </div>
+  <div class="form-row">
+    <label for="node-input-thumb"><i class="fa fa-image"></i> <span data-i18n="send-file.label.thumb"></label>
+    <input type="text" id="node-input-thumb" data-i18n="[placeholder]send-file.label.thumb">
+  </div>
+  <!-------------------------------------------------------------------------->
+  <div class="form-tips" id="node-row-tip">
+    <ul>
+      <li><span data-i18n="send-file.tip.comment"></li>
+      <li><span data-i18n="send-file.tip.thumb"></li>
+    </ul>
+  </div>
+</script>
+
+<script type="text/html" data-help-name="send-file">
+  <p>A node to send files via Threema gateway. It is required to have the SDK installed.</p>
+
+<h3>Settings</h3>
+<dl class="message-properties">
+  <dt>Sender ID
+    <span class="property-type">string</span>
+  </dt>
+  <dd> The sender ID to be selected. See config node for more information. </dd>
+  <dt>Recipient 
+    <span class="property-type">string</span>
+  </dt>
+  <dd> The recipient to be selected. See config node for more information. </dd>
+  <dt>File
+    <span class="property-type">string</span>
+  </dt>
+  <dd> The file  which should be sent. Any file type can be used. However, an image can explicitely sent as image. Files sent as generic file can have a thumbnail image. The maximum file size is 50MB.<br>The file path has to be provided as abolute path unless the files is relative to the node-red directory.</dd>
+  <dt>sendOption
+    <span class="property-type">string</span>
+  </dt>
+  <dd> <ul>
+        <li>Send always as file</li> Even an image (jpg, png) is sent as file. A file can have a thumbnail image but no comment.
+        <li>Send images as image</li> Images (jpg, png) will be sent as image. An image can have a comment but no thumbnail image.
+      </ul> </dd>
+  <dt>comment
+    <span class="property-type">string</span>
+  </dt>
+  <dd> The comment used for images. It is ignored for files. The comment is only displayed for jpg images. However, for both, jpg and png, the comment is written to the image's comment tag.</dd>
+  <dt>thumb
+    <span class="property-type">string</span>
+  </dt>
+  <dd> The thumbnail image for files to send. The thumbnail image is ignored if a file is sent as image.</dd>
+</dl>
+
+<h3>Inputs</h3>
+<dl class="message-properties">
+  <dt>msg <span class="property-type">any</span>
+  </dt>
+  <dd> Any message will trigger the sending of the configured file unless an error occurres. </dd>
+  <dt class="optional">msg.comment <span class="property-type">string</span></dt>
+  <dd> the comment to be used for images (jpg, png). The comment is displayed in the message for jpg files only but written to the comment tag for both image types. If not given or the property is empty, the configured comment is used.</dd>
+  <dt class="optional">msg.file <span class="property-type">string</span></dt>
+  <dd> the absolute path of the file to be sent. If no path is given or the property is missing, the configured file path is used to send the file.</dd>
+  <dt class="optional">msg.thumb <span class="property-type">string</span></dt>
+  <dd> the absolute path to the thumbnail image which is used if a file is sent as generic file type. If the property is not given or empty, the configured thumbnail path is take.</dd>
+</dl>
+
+<h3>Outputs</h3>
+<dl class="message-properties">
+  <dt class="optional">msg.msgid
+    <span class="property-type">string</span>
+  </dt>
+  <dd> In case the request was successful, <code>msg.msgid</code> contains the ID of the request. </dd>
+  <dt class="optional">msg.error
+    <span class="property-type">string</span>
+  </dt>
+  <dd> In case of an error, <code>msg.error</code> contains the error which was detected. </dd>
+  <dt class="optional">msg.status
+    <span class="property-type">string</span>
+  </dt>
+  <dd> After the request has finished, <code>msg.status</code> contains the status code of the executable spawning. </dd>
+</dl>
+
+<h3>Details</h3>
+<p>The file can either be an image, which is jpeg or png, or any other file typ ewhich is sent as generic file. Files can have an optional thumbnail image. Images can have comments. For jpeg images, the comment is written to the comment tag in the image and also displayed in the message. For png images the comment is only written to the image but not displayed.<br>The user running node-red shall have write permission to this node-red folder because for writing comments to images, a temp file needs to be created there.<br>The maximum file size is 50MB.</p>
+<p>The following configuration parameters can be overridden by sending it as payload of the <code>msg</code>.<br>
+<ul>
+  <li><code>msg.comment</code></li> Overrides the configured comment.
+  <li><code>msg.file</code></li> Overrides the configured file which shall be sent.
+  <li><code>msg.thumb</code></li> Overrides the configured thumbnail image for files.
+</ul>
+</p>
+
+<h3>References</h3>
+<ul>
+    <li><a href="https://gateway.threema.ch">Threema Gateway</a> - full description of the gateway and how to install it on your system.</li>
+    <li><a>GitHub</a> - the nodes github repository.</li>
+</ul>
+</script>

@@ -1,0 +1,31 @@
+{
+  "send-file" :
+  {
+    "label" :
+    {
+      "sender" : "Sender ID",
+      "recipient" : "Recipient",
+      "sendOption" : "Send Option",
+      "comment" : "Comment",
+      "thumb" : "Thumbnail",
+      "file" : "File to send"
+    },
+    "status" :
+    {
+      "init" : "init",
+      "ready" : "ready",
+      "encrypting" : "encrypting",
+      "error" : "error"
+    },
+    "sendOption" :
+    {
+      "alwaysFile" : "Send always as file",
+      "asImage" : "Send images as image"
+    },
+    "tip" :
+    {
+      "comment" : "Comments will only be shown in the message if the image is of jpeg type. However, for png it is added as comment to the image itself.",
+      "thumb" : "Thumbnail files have to be given as absolute path. Thumbnails ony work with files which are not images unless sent as file."
+    }
+  }
+}

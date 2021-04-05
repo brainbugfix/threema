@@ -1,0 +1,18 @@
+{
+  "threema-from" :
+  {
+    "label" :
+    {
+      "threemaId" : "Threema ID",
+      "secret" : "Secret",
+      "privFile" : "Private Schlüsseldatei",
+      "sdk" : "SDK ausführ.",
+      "enablePersist" : "Persistenten Schlüsselspeicher aktivieren",
+      "keyStore" : "Name Schlüsselspeicher"
+    },
+    "tip" :
+    {
+      "tip" : "Der Name des Schlüsselspeichers muss in settings.js konfiguriert sein."
+    }
+  }
+}

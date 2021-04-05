@@ -1,0 +1,18 @@
+{
+  "send-message" :
+  {
+    "label" :
+    {
+      "sender" : "Sender ID",
+      "recipient" : "Recipient",
+      "message" : "Message"
+    },
+    "status" :
+    {
+      "init" : "init",
+      "ready" : "ready",
+      "encrypting" : "encrypting",
+      "error" : "error"
+    }
+  }
+}
